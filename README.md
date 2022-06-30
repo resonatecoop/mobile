@@ -65,19 +65,24 @@ cd dream
 yarn
 ```
 
-Run instructions for Android:
+**Run instructions for Android**:
 
-  • Have an Android emulator running (quickest way to get started), or a device connected.
+Have an Android emulator running (quickest way to get started), or a device connected.
 
-  • ```cd "/Users/peterklingelhofer/Dev/dream" && npx react-native run-android```
+```sh
+cd "~/Dev/dream" && npx react-native run-android
+```
 
-Run instructions for iOS:
+**Run instructions for iOS**:
 
-  • ```cd "/Users/peterklingelhofer/Dev/dream" && npx react-native run-ios```
+  ```sh
+  cd "~/Dev/dream" && npx react-native run-ios
+  ```
 
   or
 
   • Open `dream/ios/dream.xcworkspace` in Xcode or run `xed -b ios`
+  
   • Hit the Run button
 
 
