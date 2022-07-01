@@ -62,28 +62,12 @@ Clone this repository, install dependencies, and start expo.
 ```sh
 git clone https://github.com/resonatecoop/dream.git
 cd dream
+npm install -g expo-cli
 yarn
+yarn run android
+yarn run ios
+yarn run web
 ```
-
-**Run instructions for Android**:
-
-Have an Android emulator running (quickest way to get started), or a device connected.
-
-```sh
-cd "~/Dev/dream" && npx react-native run-android
-```
-
-**Run instructions for iOS**:
-
-  ```sh
-  cd "~/Dev/dream" && npx react-native run-ios
-  ```
-
-  or
-
-  • Open `dream/ios/dream.xcworkspace` in Xcode or run `xed -b ios`
-  
-  • Hit the Run button
 
 
 ## 📚 Contributing
