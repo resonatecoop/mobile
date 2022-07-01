@@ -1,20 +1,44 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import {
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  useColorScheme,
+  View,
+} from "react-native";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 export default function App() {
+  const colorScheme = useColorScheme();
+  const isDarkMode = useColorScheme() === "dark";
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  };
+
   return (
-    <View style={styles.container}>
-      <Text>Resonate</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={backgroundStyle}>
+      <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        style={backgroundStyle}
+      >
+        <View
+          style={{
+            backgroundColor: isDarkMode ? Colors.black : Colors.white,
+          }}
+        >
+          <Text style={styles.sectionTitle}>Resonate Co-Op</Text>
+          <Text>useColorScheme(): {colorScheme}</Text>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: "600",
   },
 });
