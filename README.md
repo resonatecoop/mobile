@@ -1,10 +1,4 @@
 <div align="center">
-  <h1 align="center">stream2own</h1>
-  <strong>Play fair.</strong>
-</div>
-<br />
-
-<div align="center">
   <h3>
     <a href="https://resonate.is">
       Website
@@ -49,8 +43,6 @@ Are you building something using the Resonate [API](#api) and would like to requ
 
 ## 🗂 Tech Stack
 
-- Babel
-- React
 - React Native
 - TypeScript
 
@@ -68,6 +60,9 @@ yarn run android
 yarn run ios
 yarn run web
 ```
+
+## 🧪 Testing
+Expect your code contributions to be tested: we use [commitlint](https://commitlint.js.org) to lint commit messages, and [prettier](https://prettier.io) to lint code.
 
 
 ## 📚 Contributing
