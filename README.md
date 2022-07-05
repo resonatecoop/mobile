@@ -56,6 +56,11 @@ git clone https://github.com/resonatecoop/dream.git
 cd dream
 npm install -g expo-cli
 yarn
+expo start
+```
+
+You can also use device-specific commands to run Expo on your preferred device:
+```sh
 yarn run android
 yarn run ios
 yarn run web
