@@ -1,7 +1,9 @@
+import React from "react";
 import { StyleSheet, Text, useColorScheme, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import CustomStatusBar from "./client/components/CustomStatusBar";
+import LoginButton from "./client/components/LoginButton";
 
 export default function App() {
   const colorScheme = useColorScheme();
@@ -15,6 +17,7 @@ export default function App() {
     <SafeAreaProvider>
       <View style={[styles.container, themeContainerStyle]}>
         <CustomStatusBar />
+        <LoginButton />
         <Text style={themeTextStyle}>Resonate</Text>
       </View>
     </SafeAreaProvider>
