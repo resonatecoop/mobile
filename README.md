@@ -36,7 +36,7 @@ Resonate is an open-source music streaming service run by a cooperative of artis
 
 If you want to know what we're building or want to get more involved, head over to the Platform category on our [forum](https://community.resonate.is/c/platform/l/latest?board=default) or read the [Developer Guide](https://community.resonate.is/docs?topic=2262) in our [Resonate Handbook](https://community.resonate.is/docs).
 
-View the [project board](https://github.com/resonatecoop/dream/projects/1) where work is tracked for this repository. If you're looking for a good first task, feel encouraged to take on an un-assigned [`help wanted` or `good first task` issues](https://github.com/resonatecoop/dream/issues).
+View the [project board](https://github.com/resonatecoop/mobile/projects/1) where work is tracked for this repository. If you're looking for a good first task, feel encouraged to take on an un-assigned [`help wanted` or `good first task` issues](https://github.com/resonatecoop/mobile/issues).
 
 Are you building something using the Resonate [API](#api) and would like to request a change? Resonate welcomes #proposals in the [Co-Operation section of the forum](https://community.resonate.is/c/66).
 
@@ -52,8 +52,8 @@ Are you building something using the Resonate [API](#api) and would like to requ
 Clone this repository, install dependencies, and start expo.
 
 ```sh
-git clone https://github.com/resonatecoop/dream.git
-cd dream
+git clone https://github.com/resonatecoop/mobile.git
+cd mobile
 npm install -g expo-cli
 yarn
 expo start
@@ -99,7 +99,7 @@ Commit messages should be written in present tense describing what the committed
 
 ## 📑 License
 
-`dream` is licensed under the
+`mobile` is licensed under the
 [GNU General Public License v3.0](https://github.com/peterklingelhofer/stream-app/blob/master/LICENSE)
 
 Permissions of this strong copyleft license are conditioned on making available complete source code of licensed works and modifications, which include larger works using a licensed work, under the same license. Copyright and license notices must be preserved. Contributors provide an express grant of patent rights.
