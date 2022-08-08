@@ -27,7 +27,7 @@
 
 A mobile app for playing music on [Resonate](https://stream.resonate.coop/), an open source music streaming co-op. 
 
-This is a newer iteration, built completely in React Native and TypeScript, which aims to expand upon [`stream-app`](https://github.com/peterklingelhofer/stream-app), the initial `react-native-webview` implementation.
+This is a newer iteration, built completely in React Native and TypeScript, which aims to expand upon [`stream-app`](https://github.com/peterklingelhofer/stream-app), the initial [`react-native-webview`](https://github.com/react-native-webview/react-native-webview) implementation.
 
 
 ## 🎶 Description
