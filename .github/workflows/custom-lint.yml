@@ -1,4 +1,4 @@
-name: Lint primarily with prettier
+name: Lint primarily with ESLint
 on: 
   push:
     branches:
@@ -7,7 +7,7 @@ on:
 
 jobs:
 
-  Prettier:
+  ESLint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -17,8 +17,8 @@ jobs:
       - name: Install our packages
         run: yarn install
 
-      - name: Run Prettier --check
-        run:  yarn prettier --check "**/*.{js,jsx,ts,tsx}"
+      - name: Run ESLint
+        run:  yarn eslint --ext ts,tsx .
 
       - name: Typescript
         run: yarn tsc --noEmit
