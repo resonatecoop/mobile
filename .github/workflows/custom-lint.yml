@@ -7,7 +7,7 @@ on:
 
 jobs:
 
-  ESLint:
+  ESLint-Prettier:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -19,6 +19,9 @@ jobs:
 
       - name: Run ESLint
         run:  yarn eslint --ext ts,tsx .
+
+      - name: Run Prettier --check
+        run:  yarn prettier --check "**/*.{js,jsx,ts,tsx}"
 
       - name: Typescript
         run: yarn tsc --noEmit
