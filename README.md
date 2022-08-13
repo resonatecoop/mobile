@@ -23,11 +23,11 @@
 </div>
 <br />
 
-## 🎵 Resonate Stream App
-
 > 🛠 **Status: Experimental**
 >
 > This project is currently in development.
+
+## 🎵 Resonate Mobile
 
 A mobile app for playing music on [Resonate](https://stream.resonate.coop/), an open source music streaming co-op. 
 
