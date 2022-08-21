@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 import { Audio } from "expo-av";
 
@@ -72,16 +72,36 @@ export default function App() {
 
   return (
     <View>
-      <Button icon="rewind" mode="contained" onPress={previousMedia}>
+      <Button
+        accessibilityLabel="rewind"
+        icon="rewind"
+        mode="contained"
+        onPress={previousMedia}
+      >
         Back
       </Button>
-      <Button icon={playPauseLabel} mode="contained" onPress={togglePlay}>
+      <Button
+        accessibilityLabel={playPauseLabel}
+        icon={playPauseLabel}
+        mode="contained"
+        onPress={togglePlay}
+      >
         {playPauseLabel}
       </Button>
-      <Button icon="stop" mode="contained" onPress={stopSound}>
+      <Button
+        accessibilityLabel="stop"
+        icon="stop"
+        mode="contained"
+        onPress={stopSound}
+      >
         Stop
       </Button>
-      <Button icon="fast-forward" mode="contained" onPress={nextMedia}>
+      <Button
+        accessibilityLabel="fast forward"
+        icon="fast-forward"
+        mode="contained"
+        onPress={nextMedia}
+      >
         Forward
       </Button>
     </View>

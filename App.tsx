@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet } from "react-native";
+import * as React from "react";
+import { StyleSheet, View } from "react-native";
 import {
   Provider as PaperProvider,
   BottomNavigation,
@@ -45,23 +45,3 @@ export default function App() {
     </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  lightContainer: {
-    backgroundColor: "#fff",
-  },
-  darkContainer: {
-    backgroundColor: "#181A1B",
-  },
-  lightThemeText: {
-    color: "#181A1B",
-  },
-  darkThemeText: {
-    color: "#fff",
-  },
-});
