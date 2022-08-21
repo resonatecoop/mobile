@@ -18,7 +18,11 @@ export default function App() {
       title: "Home",
       icon: "home",
     },
-    { key: "search", title: "Search", icon: "magnify" },
+    {
+      key: "search",
+      title: "Search",
+      icon: "magnify",
+    },
   ]);
 
   const renderScene = BottomNavigation.SceneMap({

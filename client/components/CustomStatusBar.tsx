@@ -9,7 +9,12 @@ export default function CustomStatusBar() {
   const barStyle: StatusBarStyle = isDark ? "light-content" : "dark-content";
 
   return (
-    <View style={{ height: insets.top, backgroundColor }}>
+    <View
+      style={{
+        height: insets.top,
+        backgroundColor,
+      }}
+    >
       <StatusBar
         animated={true}
         backgroundColor={backgroundColor}
