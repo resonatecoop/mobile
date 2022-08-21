@@ -8,6 +8,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import CustomStatusBar from "./client/components/CustomStatusBar";
 import Home from "./client/components/Home";
+import Player from "./client/components/Player";
 import Search from "./client/components/Search";
 
 export default function App() {
@@ -34,6 +35,7 @@ export default function App() {
     <SafeAreaProvider>
       <PaperProvider>
         <CustomStatusBar />
+        <Player />
         <BottomNavigation
           navigationState={{ index, routes }}
           onIndexChange={setIndex}
