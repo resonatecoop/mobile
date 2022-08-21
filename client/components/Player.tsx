@@ -27,7 +27,7 @@ export default function App() {
   }
 
   async function playSound(playlistIndex = index) {
-    console.log('playing...', PLAYLIST[playlistIndex]);
+    console.log("playing...", PLAYLIST[playlistIndex]);
     const { sound } = await Audio.Sound.createAsync(PLAYLIST[playlistIndex]);
     setSound(sound);
     await sound.playAsync();
@@ -59,7 +59,6 @@ export default function App() {
     } else {
       stopSound();
     }
-    
   }
 
   React.useEffect(() => {
