@@ -1,5 +1,4 @@
 import * as React from "react";
-import { StyleSheet, View } from "react-native";
 import {
   Provider as PaperProvider,
   BottomNavigation,
@@ -10,6 +9,8 @@ import CustomStatusBar from "./client/components/CustomStatusBar";
 import Home from "./client/components/Home";
 import Player from "./client/components/Player";
 import Search from "./client/components/Search";
+
+const BOTTOM_NAVIGATION_HEIGHT = 80;
 
 export default function App() {
   const [index, setIndex] = React.useState(0);
@@ -35,12 +36,12 @@ export default function App() {
     <SafeAreaProvider>
       <PaperProvider>
         <CustomStatusBar />
-        <Player />
         <BottomNavigation
           navigationState={{ index, routes }}
           onIndexChange={setIndex}
           renderScene={renderScene}
         />
+        <Player />
       </PaperProvider>
     </SafeAreaProvider>
   );
