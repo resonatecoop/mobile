@@ -1,16 +1,19 @@
 import * as React from "react";
-import { View, StyleSheet } from "react-native";
-import { Button } from "react-native-paper";
+import { StyleSheet } from "react-native";
 import { Audio } from "expo-av";
+import { Appbar, useTheme, Text } from "react-native-paper";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { PLAYLIST } from "../test";
 const playlistLength = PLAYLIST.length;
 
-export default function App() {
+export default function Player() {
   const [sound, setSound] = React.useState<Audio.Sound | null>(null);
   const [isPlaying, setIsPlaying] = React.useState<boolean>(false);
   const [index, setIndex] = React.useState<number>(0);
 
+  const { bottom } = useSafeAreaInsets();
+  const theme = useTheme();
   const playPauseLabel = isPlaying ? "pause" : "play";
 
   async function togglePlay() {
@@ -28,7 +31,9 @@ export default function App() {
 
   async function playSound(playlistIndex = index) {
     console.log("playing...", PLAYLIST[playlistIndex]);
-    const { sound } = await Audio.Sound.createAsync(PLAYLIST[playlistIndex]);
+    const { sound, status } = await Audio.Sound.createAsync(
+      PLAYLIST[playlistIndex]
+    );
     setSound(sound);
     await sound.playAsync();
     if (playlistIndex !== index) {
@@ -64,46 +69,51 @@ export default function App() {
   React.useEffect(() => {
     return sound
       ? () => {
-          setIsPlaying(false);
           sound.unloadAsync();
         }
       : undefined;
   }, [sound]);
 
   return (
-    <View>
-      <Button
+    <Appbar
+      style={[
+        styles.appBar,
+        {
+          height: bottom,
+          backgroundColor: theme.colors.surface,
+        },
+      ]}
+    >
+      <Appbar.Action
         accessibilityLabel="rewind"
         icon="rewind"
-        mode="contained"
         onPress={previousMedia}
-      >
-        Back
-      </Button>
-      <Button
+      />
+      <Appbar.Action
         accessibilityLabel={playPauseLabel}
         icon={playPauseLabel}
-        mode="contained"
         onPress={togglePlay}
-      >
-        {playPauseLabel}
-      </Button>
-      <Button
+      />
+      <Appbar.Action
         accessibilityLabel="stop"
         icon="stop"
-        mode="contained"
         onPress={stopSound}
-      >
-        Stop
-      </Button>
-      <Button
+      />
+      <Appbar.Action
         accessibilityLabel="fast forward"
         icon="fast-forward"
-        mode="contained"
         onPress={nextMedia}
-      >
-        Forward
-      </Button>
-    </View>
+      />
+      <Text>{PLAYLIST[index].name}</Text>
+    </Appbar>
   );
 }
+
+const styles = StyleSheet.create({
+  appBar: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 89,
+  },
+});
