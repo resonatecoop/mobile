@@ -10,10 +10,12 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-native-community/slider": "4.2.1",
     "expo": "~45.0.0",
     "expo-av": "~11.2.3",
     "expo-status-bar": "~1.3.0",
     "expo-system-ui": "~1.2.0",
+    "lodash": "^4.17.21",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-native": "0.68.2",
@@ -24,6 +26,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
+    "@types/lodash": "^4.14.184",
     "@types/react": "~17.0.21",
     "@types/react-native": "~0.66.13",
     "prettier": "^2.7.1",
