@@ -1,0 +1,1 @@
+export const BOTTOM_NAVIGATION_HEIGHT = 89;
