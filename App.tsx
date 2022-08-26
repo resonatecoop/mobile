@@ -9,8 +9,10 @@ import CustomStatusBar from "./client/components/CustomStatusBar";
 import Home from "./client/components/Home";
 import Player from "./client/components/Player";
 import Search from "./client/components/Search";
+import Browse from "./client/components/Browse";
+import Library from "./client/components/Library";
 
-const BOTTOM_NAVIGATION_HEIGHT = 80;
+import { BOTTOM_NAVIGATION_HEIGHT } from "./client/constants";
 
 export default function App() {
   const [index, setIndex] = React.useState(0);
@@ -25,11 +27,23 @@ export default function App() {
       title: "Search",
       icon: "magnify",
     },
+    {
+      key: "browse",
+      title: "Browse",
+      icon: "telescope",
+    },
+    {
+      key: "library",
+      title: "Library",
+      icon: "library",
+    },
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
     home: Home,
     search: Search,
+    browse: Browse,
+    library: Library,
   });
 
   return (
@@ -40,6 +54,7 @@ export default function App() {
           navigationState={{ index, routes }}
           onIndexChange={setIndex}
           renderScene={renderScene}
+          barStyle={{ height: BOTTOM_NAVIGATION_HEIGHT }}
         />
         <Player />
       </PaperProvider>

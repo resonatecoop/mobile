@@ -5,14 +5,13 @@ import {
   AVPlaybackStatus,
   InterruptionModeAndroid,
   InterruptionModeIOS,
-  ResizeMode,
-  Video,
 } from "expo-av";
 import Slider from "@react-native-community/slider";
-import { Appbar, useTheme, Text, IconButton, Button } from "react-native-paper";
+import { Appbar, useTheme, Text } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import isNil from "lodash/isNil";
 
+import { BOTTOM_NAVIGATION_HEIGHT } from "../constants";
 import { getMMSSFromMillis } from "../utils";
 import { PLAYLIST } from "../test";
 
@@ -22,50 +21,42 @@ enum LoopingType {
 }
 
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
-const BACKGROUND_COLOR = "#FFF8ED";
 const DISABLED_OPACITY = 0.5;
 const FONT_SIZE = 14;
 const LOADING_STRING = "... loading ...";
 const BUFFERING_STRING = "...buffering...";
 const RATE_SCALE = 3.0;
-const VIDEO_CONTAINER_HEIGHT = (DEVICE_HEIGHT * 2.0) / 5.0 - FONT_SIZE * 2;
 
 export default function Player(): JSX.Element {
   const [index, setIndex] = React.useState<number>(0);
+  const [isBuffering, setIsBuffering] = React.useState<boolean>(false);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [isPlaying, setIsPlaying] = React.useState<boolean>(false);
   const [isSeeking, setIsSeeking] = React.useState<boolean>(false);
-  const [shouldPlayAtEndOfSeek, setShouldPlayAtEndOfSeek] =
-    React.useState<boolean>(false);
-  const [playbackInstance, setPlaybackInstance] =
-    React.useState<Audio.Sound | null>(null);
-  let video: React.LegacyRef<HTMLVideoElement | null> = null;
-  const [showVideo, setShowVideo] = React.useState<boolean>(false);
-  const [playbackInstanceName, setPlaybackInstanceName] =
-    React.useState<string>(LOADING_STRING);
   const [loopingType, setLoopingType] = React.useState<LoopingType>(
     LoopingType.ALL
   );
   const [muted, setMuted] = React.useState<boolean>(false);
-  const [playbackInstancePosition, setPlaybackInstancePosition] =
-    React.useState<number | null>(null);
+  const [playbackInstance, setPlaybackInstance] =
+    React.useState<Audio.Sound | null>(null);
   const [playbackInstanceDuration, setPlaybackInstanceDuration] =
     React.useState<number | null>(null);
-  const [shouldPlay, setShouldPlay] = React.useState<boolean>(false);
-  const [isPlaying, setIsPlaying] = React.useState<boolean>(false);
-  const [isBuffering, setIsBuffering] = React.useState<boolean>(false);
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [playbackInstanceName, setPlaybackInstanceName] =
+    React.useState<string>(LOADING_STRING);
+  const [playbackInstancePosition, setPlaybackInstancePosition] =
+    React.useState<number | null>(null);
+  const [poster, setPoster] = React.useState<boolean>(false);
+  const [rate, setRate] = React.useState<number>(1.0);
   const [shouldCorrectPitch, setShouldCorrectPitch] =
     React.useState<boolean>(false);
-  const [volume, setVolume] = React.useState<number>(1.0);
-  const [rate, setRate] = React.useState<number>(1.0);
-  const [videoWidth, setVideoWidth] = React.useState<number>(DEVICE_WIDTH);
-  const [videoHeight, setVideoHeight] = React.useState<number>(
-    VIDEO_CONTAINER_HEIGHT
-  );
-  const [poster, setPoster] = React.useState<boolean>(false);
+  const [shouldPlay, setShouldPlay] = React.useState<boolean>(false);
+  const [shouldPlayAtEndOfSeek, setShouldPlayAtEndOfSeek] =
+    React.useState<boolean>(false);
+  const [showVideo, setShowVideo] = React.useState<boolean>(false);
+  const [throughEarpiece, setThroughEarpiece] = React.useState<boolean>(false);
   const [useNativeControls, setUseNativeControls] =
     React.useState<boolean>(false);
-  const [fullscreen, setFullscreen] = React.useState<boolean>(false);
-  const [throughEarpiece, setThroughEarpiece] = React.useState<boolean>(false);
+  const [volume, setVolume] = React.useState<number>(1.0);
 
   const { bottom } = useSafeAreaInsets();
   const theme = useTheme();
@@ -99,30 +90,16 @@ export default function Player(): JSX.Element {
       volume,
       isMuted: muted,
       isLooping: loopingType === LoopingType.ONE,
-      // // UNCOMMENT THIS TO TEST THE OLD androidImplementation:
-      // androidImplementation: 'MediaPlayer',
     };
 
-    // if (PLAYLIST[index].isVideo) {
-    //   await video.loadAsync(source, initialStatus);
-    //   playbackInstance(video);
-    //   const status = await video.getStatusAsync();
-    // } else {
-    const { sound, status } = await Audio.Sound.createAsync(
+    const { sound } = await Audio.Sound.createAsync(
       source,
       initialStatus,
       _onPlaybackStatusUpdate
     );
     setPlaybackInstance(sound);
-    // }
 
     _updateScreenForLoading(false);
-  }
-
-  function _mountVideo(component: HTMLVideoElement) {
-    // TODO: implement video
-    // video = component;
-    // _loadNewPlaybackInstance(false);
   }
 
   function _updateScreenForLoading(isLoading: boolean) {
@@ -164,53 +141,12 @@ export default function Player(): JSX.Element {
     }
   }
 
-  function _onLoadStart() {
-    console.log(`ON LOAD START`);
-  }
-
-  function _onLoad(status: any) {
-    console.log(`ON LOAD : ${JSON.stringify(status)}`);
-  }
-
-  function _onError(error: any) {
-    console.log(`ON ERROR : ${error}`);
-  }
-
-  function _onReadyForDisplay(event: {
-    naturalSize: { height: number; width: number };
-  }) {
-    const widestHeight =
-      (DEVICE_WIDTH * event.naturalSize.height) / event.naturalSize.width;
-    if (widestHeight > VIDEO_CONTAINER_HEIGHT) {
-      setVideoWidth(
-        (VIDEO_CONTAINER_HEIGHT * event.naturalSize.width) /
-          event.naturalSize.height
-      );
-      setVideoHeight(VIDEO_CONTAINER_HEIGHT);
-    } else {
-      setVideoWidth(DEVICE_WIDTH);
-      setVideoHeight(
-        (DEVICE_WIDTH * event.naturalSize.height) / event.naturalSize.width
-      );
-    }
-  }
-
-  function _onFullscreenUpdate(event: { fullscreenUpdate: any }) {
-    console.log(
-      `FULLSCREEN UPDATE : ${JSON.stringify(event.fullscreenUpdate)}`
-    );
-  }
-
   function _advanceIndex(forward: boolean) {
     setIndex((index + (forward ? 1 : PLAYLIST.length - 1)) % PLAYLIST.length);
   }
 
   async function _updatePlaybackInstanceForIndex(playing: boolean) {
     _updateScreenForLoading(true);
-
-    setVideoWidth(DEVICE_WIDTH);
-    setVideoHeight(VIDEO_CONTAINER_HEIGHT);
-
     _loadNewPlaybackInstance(playing);
   }
 
@@ -335,15 +271,6 @@ export default function Player(): JSX.Element {
     setUseNativeControls(!useNativeControls);
   }
 
-  function _onFullscreenPressed() {
-    // TODO: implement fullscreen video
-    // try {
-    //   video.presentFullscreenPlayer();
-    // } catch (error: any) {
-    //   console.log(error.toString());
-    // }
-  }
-
   function _onSpeakerPressed() {
     setThroughEarpiece(!throughEarpiece);
 
@@ -358,30 +285,17 @@ export default function Player(): JSX.Element {
   }
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: theme.colors.background,
+          bottom: BOTTOM_NAVIGATION_HEIGHT,
+        },
+      ]}
+    >
       <View />
       <View style={styles.space} />
-      {/* <View style={styles.videoContainer}>
-        <Video
-          ref={_mountVideo}
-          style={[
-            styles.video,
-            {
-              opacity: showVideo ? 1.0 : 0.0,
-              width: videoWidth,
-              height: videoHeight,
-            },
-          ]}
-          resizeMode={ResizeMode.CONTAIN}
-          onPlaybackStatusUpdate={_onPlaybackStatusUpdate}
-          onLoadStart={_onLoadStart}
-          onLoad={_onLoad}
-          onError={_onError}
-          onFullscreenUpdate={_onFullscreenUpdate}
-          onReadyForDisplay={_onReadyForDisplay}
-          useNativeControls={useNativeControls}
-        />
-      </View> */}
       <View
         style={[
           styles.playbackContainer,
@@ -390,26 +304,29 @@ export default function Player(): JSX.Element {
           },
         ]}
       >
+        <View style={styles.trackInfoRow}>
+          <Text style={[styles.text, styles.buffering]}>
+            {isBuffering ? BUFFERING_STRING : ""}
+          </Text>
+          <Text style={styles.text}>{playbackInstanceName}</Text>
+        </View>
         <Slider
           style={styles.playbackSlider}
           value={_getSeekSliderPosition()}
           onValueChange={_onSeekSliderValueChange}
           onSlidingComplete={_onSeekSliderSlidingComplete}
           disabled={isLoading}
+          minimumTrackTintColor="#404040"
+          maximumTrackTintColor="#505050"
+          tapToSeek={true} // Permits tapping on the slider track to set the thumb position (iOS only)
         />
-        <View style={styles.timestampRow}>
-          <Text style={[styles.text, styles.buffering]}>
-            {isBuffering ? BUFFERING_STRING : ""}
-          </Text>
-          <Text style={[styles.text, styles.timestamp]}>{_getTimestamp()}</Text>
-        </View>
       </View>
       <Appbar
         style={[
           styles.appBar,
           {
+            backgroundColor: theme.colors.background,
             height: bottom,
-            backgroundColor: theme.colors.surface,
           },
         ]}
       >
@@ -433,104 +350,27 @@ export default function Player(): JSX.Element {
           icon="fast-forward"
           onPress={_onForwardPressed}
         />
-        <Text style={styles.text}>{playbackInstanceName}</Text>
-      </Appbar>
-      <View
-        style={[styles.buttonsContainerBase, styles.buttonsContainerMiddleRow]}
-      >
-        <View style={styles.volumeContainer}>
-          <IconButton
-            icon={
-              muted
-                ? "volume-mute"
-                : volume > 0.5
-                ? "volume-high"
-                : volume > 0
-                ? "volume-medium"
-                : "volume-low"
-            }
-            style={styles.wrapper}
-            onPress={_onMutePressed}
-          />
-          <Slider
-            style={styles.volumeSlider}
-            value={1}
-            onValueChange={_onVolumeSliderValueChange}
-          />
-        </View>
-        <IconButton
-          icon={loopingType === LoopingType.ALL ? "repeat" : "replay"}
-          style={styles.wrapper}
+        <Appbar.Action
+          accessibilityLabel={
+            loopingType === LoopingType.ALL ? "repeat" : "repeat-once"
+          }
+          icon={loopingType === LoopingType.ALL ? "repeat" : "repeat-once"}
           onPress={_onLoopPressed}
         />
-        <IconButton
-          icon={throughEarpiece ? "headphones" : "speaker"}
-          onPress={_onSpeakerPressed}
-          underlayColor={BACKGROUND_COLOR}
-        />
-      </View>
-      <View />
-      {showVideo ? (
-        <View>
-          <View
-            style={[
-              styles.buttonsContainerBase,
-              styles.buttonsContainerTextRow,
-            ]}
-          >
-            <View />
-            <Button style={styles.wrapper} onPress={_onPosterPressed}>
-              <View style={styles.button}>
-                <Text style={[styles.text]}>
-                  Poster: {poster ? "yes" : "no"}
-                </Text>
-              </View>
-            </Button>
-            <View />
-            <Button style={styles.wrapper} onPress={_onFullscreenPressed}>
-              <View style={styles.button}>
-                <Text style={styles.text}>Fullscreen</Text>
-              </View>
-            </Button>
-            <View />
-          </View>
-          <View style={styles.space} />
-          <View
-            style={[
-              styles.buttonsContainerBase,
-              styles.buttonsContainerTextRow,
-            ]}
-          >
-            <View />
-            <Button
-              style={styles.wrapper}
-              onPress={_onUseNativeControlsPressed}
-            >
-              <View style={styles.button}>
-                <Text style={styles.text}>
-                  Native Controls: {useNativeControls ? "yes" : "no"}
-                </Text>
-              </View>
-            </Button>
-            <View />
-          </View>
-        </View>
-      ) : null}
+        <Text style={[styles.text, styles.timestamp]}>{_getTimestamp()}</Text>
+      </Appbar>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   appBar: {
-    position: "absolute",
     left: 0,
     right: 0,
-    bottom: 89, // must match height of the BottomNavigation component
   },
   emptyContainer: {
     position: "absolute",
     alignSelf: "stretch",
-    backgroundColor: BACKGROUND_COLOR,
   },
   container: {
     position: "absolute",
@@ -539,10 +379,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     alignSelf: "stretch",
-    backgroundColor: BACKGROUND_COLOR,
     left: 0,
     right: 0,
-    bottom: 89,
   },
   wrapper: {},
   nameContainer: {
@@ -551,30 +389,24 @@ const styles = StyleSheet.create({
   space: {
     height: FONT_SIZE,
   },
-  videoContainer: {
-    height: VIDEO_CONTAINER_HEIGHT,
-  },
-  video: {
-    maxWidth: DEVICE_WIDTH,
-  },
   playbackContainer: {
     flex: 1,
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
     alignSelf: "stretch",
-    minHeight: 40, // ICON_THUMB_1.height * 2.0,
-    maxHeight: 80, //ICON_THUMB_1.height * 2.0,
+    minHeight: 40,
+    maxHeight: 80,
   },
   playbackSlider: {
     alignSelf: "stretch",
+    marginBottom: 8,
   },
-  timestampRow: {
+  trackInfoRow: {
     flex: 1,
+    textAlign: "center",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    alignSelf: "stretch",
     minHeight: FONT_SIZE,
   },
   text: {
@@ -587,10 +419,7 @@ const styles = StyleSheet.create({
   },
   timestamp: {
     textAlign: "right",
-    paddingRight: 20,
-  },
-  button: {
-    backgroundColor: BACKGROUND_COLOR,
+    paddingLeft: 20,
   },
   buttonsContainerBase: {
     flex: 1,
