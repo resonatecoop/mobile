@@ -48,7 +48,6 @@ export default function Player(): JSX.Element {
   const [shouldPlay, setShouldPlay] = React.useState<boolean>(false);
   const [shouldPlayAtEndOfSeek, setShouldPlayAtEndOfSeek] =
     React.useState<boolean>(false);
-  const [showVideo, setShowVideo] = React.useState<boolean>(false);
   const [throughEarpiece, setThroughEarpiece] = React.useState<boolean>(false);
   const [useNativeControls, setUseNativeControls] =
     React.useState<boolean>(false);
@@ -100,7 +99,6 @@ export default function Player(): JSX.Element {
 
   function _updateScreenForLoading(isLoading: boolean) {
     if (isLoading) {
-      setShowVideo(false);
       setIsPlaying(false);
       setPlaybackInstanceName(LOADING_STRING);
       setPlaybackInstanceDuration(null);
@@ -108,7 +106,6 @@ export default function Player(): JSX.Element {
       setIsLoading(true);
     } else {
       setPlaybackInstanceName(PLAYLIST[index].name);
-      setShowVideo(PLAYLIST[index].isVideo);
       setIsLoading(false);
     }
   }
