@@ -69,6 +69,7 @@ export default function Player(): JSX.Element {
     if (playbackInstance == null) {
       _loadNewPlaybackInstance(false);
     }
+    _advanceIndex(true);
   }, []);
 
   async function _loadNewPlaybackInstance(playing: boolean) {
@@ -162,14 +163,14 @@ export default function Player(): JSX.Element {
   function _onForwardPressed() {
     if (playbackInstance != null) {
       _advanceIndex(true);
-      _updatePlaybackInstanceForIndex(shouldPlay);
+      _updatePlaybackInstanceForIndex(shouldPlay || isPlaying);
     }
   }
 
   function _onBackPressed() {
     if (playbackInstance != null) {
       _advanceIndex(false);
-      _updatePlaybackInstanceForIndex(shouldPlay);
+      _updatePlaybackInstanceForIndex(shouldPlay || isPlaying);
     }
   }
 
