@@ -1,28 +1,3 @@
-<div align="center">
-  <h3>
-    <a href="https://resonate.is">
-      Website
-    </a>
-    <span> | </span>
-    <a href="https://www.twitter.com/resonatecoop/">
-      Twitter
-    </a>
-    <span> | </span>
-    <a href="https://github.com/resonatecoop/stream2own/blob/master/CONTRIBUTING.md">
-      Contributing
-    </a>
-    <span> | </span>
-    <a href="https://community.resonate.is/t/dev-volunteers-needed-to-build-the-resonate-ecosystem/2262">
-      Developer Guide
-    </a>
-    <span> | </span>
-    <a href="https://docs.resonate.coop">
-      Resonate Docs
-    </a>
-  </h3>
-</div>
-<br />
-
 > 🛠 **Status: Experimental**
 >
 > This project is currently in development.
