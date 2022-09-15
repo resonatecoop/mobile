@@ -1,6 +1,6 @@
-> 🛠 **Status: Experimental**
+> 🛠 **Status: Active Development | Experimental**
 >
-> This project is currently in development.
+> This project is currently broken and under very active development.
 
 ## 🎵 Resonate Mobile
 
