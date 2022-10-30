@@ -20,7 +20,6 @@ import { LoopingType } from "./types";
 const DISABLED_OPACITY = 0.5;
 const LOADING_STRING = "... loading ...";
 const BUFFERING_STRING = "...buffering...";
-const RATE_SCALE = 3.0;
 
 export default function Player(): JSX.Element {
   const [index, setIndex] = React.useState<number>(0);
@@ -40,15 +39,11 @@ export default function Player(): JSX.Element {
     React.useState<string>(LOADING_STRING);
   const [playbackInstancePosition, setPlaybackInstancePosition] =
     React.useState<number | null>(null);
-  const [poster, setPoster] = React.useState<boolean>(false);
   const [rate, setRate] = React.useState<number>(1.0);
   const [shouldCorrectPitch, setShouldCorrectPitch] =
     React.useState<boolean>(false);
   const [shouldPlay, setShouldPlay] = React.useState<boolean>(false);
   const [shouldPlayAtEndOfSeek, setShouldPlayAtEndOfSeek] =
-    React.useState<boolean>(false);
-  const [throughEarpiece, setThroughEarpiece] = React.useState<boolean>(false);
-  const [useNativeControls, setUseNativeControls] =
     React.useState<boolean>(false);
   const [volume, setVolume] = React.useState<number>(1.0);
 
@@ -173,43 +168,10 @@ export default function Player(): JSX.Element {
     }
   }
 
-  function _onMutePressed() {
-    if (playbackInstance != null) {
-      playbackInstance.setIsMutedAsync(!muted);
-    }
-  }
-
   function _onLoopPressed() {
     if (playbackInstance != null) {
       playbackInstance.setIsLoopingAsync(loopingType !== LoopingType.ONE);
     }
-  }
-
-  function _onVolumeSliderValueChange(value: number) {
-    if (playbackInstance != null) {
-      playbackInstance.setVolumeAsync(value);
-    }
-  }
-
-  async function _trySetRate(rate: number, shouldCorrectPitch: boolean) {
-    if (playbackInstance != null) {
-      try {
-        await playbackInstance.setRateAsync(rate, shouldCorrectPitch);
-      } catch (error) {
-        console.log(
-          "Rate changing could not be performed, possibly because the client's Android API is too old.",
-          error
-        );
-      }
-    }
-  }
-
-  async function _onRateSliderSlidingComplete(value: number) {
-    _trySetRate(value * RATE_SCALE, shouldCorrectPitch);
-  }
-
-  async function _onPitchCorrectionPressed() {
-    _trySetRate(rate, !shouldCorrectPitch);
   }
 
   function _onSeekSliderValueChange() {
@@ -254,27 +216,6 @@ export default function Player(): JSX.Element {
       )} / ${getMMSSFromMillis(playbackInstanceDuration)}`;
     }
     return "";
-  }
-
-  function _onPosterPressed() {
-    setPoster(!poster);
-  }
-
-  function _onUseNativeControlsPressed() {
-    setUseNativeControls(!useNativeControls);
-  }
-
-  function _onSpeakerPressed() {
-    setThroughEarpiece(!throughEarpiece);
-
-    Audio.setAudioModeAsync({
-      allowsRecordingIOS: false,
-      interruptionModeIOS: InterruptionModeIOS.DoNotMix,
-      playsInSilentModeIOS: true,
-      shouldDuckAndroid: true,
-      interruptionModeAndroid: InterruptionModeAndroid.DoNotMix,
-      playThroughEarpieceAndroid: throughEarpiece,
-    });
   }
 
   return (
