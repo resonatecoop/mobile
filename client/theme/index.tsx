@@ -4,7 +4,7 @@ import {
   DefaultTheme as NavigationLightTheme,
   NavigationContainer,
 } from "@react-navigation/native";
-import { Provider as PaperProvider } from "react-native-paper";
+import { Provider as PaperProvider, Theme } from "react-native-paper";
 import {
   DarkTheme as PaperDarkTheme,
   DefaultTheme as PaperLightTheme,
@@ -16,27 +16,32 @@ import {
   useMemo,
   useState,
 } from "react";
+import { Appearance } from "react-native";
 
-export enum ThemeMode {
-  Light = "light",
-  Dark = "dark",
-}
+Appearance.getColorScheme();
 
-const lightTheme = merge({}, PaperLightTheme, NavigationLightTheme);
-const darkTheme = merge({}, PaperDarkTheme, NavigationDarkTheme);
+export type ThemeMode = "light" | "dark";
+
+const lightTheme = merge({}, NavigationLightTheme, PaperLightTheme);
+const darkTheme = merge(NavigationDarkTheme, PaperDarkTheme, {
+  colors: { background: "#18191a" },
+} as Theme);
 
 export const themes = {
-  [ThemeMode.Light]: lightTheme,
-  [ThemeMode.Dark]: darkTheme,
+  light: lightTheme,
+  dark: darkTheme,
 };
 
-const ThemeModeContext = createContext({
+const ThemeModeContext = createContext<{
+  setMode: (mode: ThemeMode) => void;
+  mode: ThemeMode;
+}>({
   setMode: (mode: ThemeMode) => {},
-  mode: ThemeMode.Dark,
+  mode: "dark",
 });
 
 export function ThemeModeProvider({ children }: PropsWithChildren<{}>) {
-  const [mode, setMode] = useState(ThemeMode.Light);
+  const [mode, setMode] = useState<ThemeMode>("light");
   const settings = useMemo(() => ({ mode, setMode }), [mode]);
 
   return (
