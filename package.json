@@ -5,6 +5,8 @@
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
+    "eslint:check": "eslint . --ext .jsx,.js,.ts,.tsx",
+    "prettier:check": "prettier --check '**/*.{js,ts,jsx,tsx}'",
     "eslint:fix": "eslint --fix . --ext .jsx,.js,.ts,.tsx",
     "prettier:fix": "prettier --write '**/*.{js,ts,jsx,tsx}'",
     "lint": "npm run eslint:check && npm run prettier:check",
