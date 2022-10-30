@@ -41,13 +41,15 @@ export const styles = StyleSheet.create({
   },
   playbackSlider: {
     alignSelf: "stretch",
-    marginBottom: 8,
+    marginBottom: -6,
+    marginTop: 12,
   },
   trackInfoRow: {
     alignItems: "center",
     flex: 1,
     flexDirection: "row",
     minHeight: FONT_SIZE,
+    position: "absolute",
     textAlign: "center",
   },
   text: {
