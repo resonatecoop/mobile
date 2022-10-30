@@ -1,4 +1,4 @@
-import { StatusBar, StatusBarStyle, useColorScheme, View } from "react-native";
+import { StatusBar, StatusBarStyle, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useThemeMode } from "../../theme";

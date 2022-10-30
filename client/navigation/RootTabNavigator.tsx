@@ -1,6 +1,5 @@
 import MaterialCommunityIcon from "@expo/vector-icons/MaterialCommunityIcons";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import { useTheme } from "react-native-paper";
 
 import Browse from "../components/Browse";
 import Home from "../components/Home";
