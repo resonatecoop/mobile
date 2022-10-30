@@ -1,7 +1,12 @@
 import { Text } from "react-native-paper";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Home = () => {
-  return <Text>Home</Text>;
+  return (
+    <SafeAreaView>
+      <Text>Home</Text>
+    </SafeAreaView>
+  );
 };
 
 export default Home;
