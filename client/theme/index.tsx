@@ -19,8 +19,6 @@ import {
 } from "react";
 import { Appearance } from "react-native";
 
-Appearance.getColorScheme();
-
 export type ThemeMode = "light" | "dark";
 
 const lightTheme = merge({}, NavigationLightTheme, PaperLightTheme);
@@ -42,7 +40,9 @@ const ThemeModeContext = createContext<{
 });
 
 export function ThemeModeProvider({ children }: PropsWithChildren<{}>) {
-  const [mode, setMode] = useState<ThemeMode>(() => "light");
+  const [mode, setMode] = useState<ThemeMode>(
+    () => Appearance.getColorScheme() ?? "dark"
+  );
   const settings = useMemo(() => ({ mode, setMode }), [mode]);
 
   useEffect(() => {
