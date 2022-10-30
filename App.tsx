@@ -1,12 +1,13 @@
 import * as React from "react";
-import RootTabNavigator from "./client/navigation/RootTabNavigator";
 import {
   SafeAreaProvider,
   initialWindowMetrics,
 } from "react-native-safe-area-context";
-import Player from "./client/components/Player";
-import { PaperNavigationProvider, ThemeModeProvider } from "./client/theme";
+
 import CustomStatusBar from "./client/components/CustomStatusBar";
+import Player from "./client/components/Player";
+import RootTabNavigator from "./client/navigation/RootTabNavigator";
+import { PaperNavigationProvider, ThemeModeProvider } from "./client/theme";
 
 export default function App() {
   return (

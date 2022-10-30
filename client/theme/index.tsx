@@ -1,14 +1,9 @@
-import merge from "lodash/merge";
 import {
   DarkTheme as NavigationDarkTheme,
   DefaultTheme as NavigationLightTheme,
   NavigationContainer,
 } from "@react-navigation/native";
-import { Provider as PaperProvider, Theme } from "react-native-paper";
-import {
-  DarkTheme as PaperDarkTheme,
-  DefaultTheme as PaperLightTheme,
-} from "react-native-paper";
+import merge from "lodash/merge";
 import {
   createContext,
   PropsWithChildren,
@@ -18,6 +13,12 @@ import {
   useState,
 } from "react";
 import { Appearance } from "react-native";
+import {
+  Provider as PaperProvider,
+  Theme,
+  DarkTheme as PaperDarkTheme,
+  DefaultTheme as PaperLightTheme,
+} from "react-native-paper";
 
 export type ThemeMode = "light" | "dark";
 
@@ -39,7 +40,7 @@ const ThemeModeContext = createContext<{
   mode: "dark",
 });
 
-export function ThemeModeProvider({ children }: PropsWithChildren<{}>) {
+export function ThemeModeProvider({ children }: PropsWithChildren<object>) {
   const [mode, setMode] = useState<ThemeMode>(
     () => Appearance.getColorScheme() ?? "dark"
   );
@@ -68,7 +69,9 @@ export function useThemeMode() {
   return useContext(ThemeModeContext);
 }
 
-export function PaperNavigationProvider({ children }: PropsWithChildren<{}>) {
+export function PaperNavigationProvider({
+  children,
+}: PropsWithChildren<object>) {
   const { mode } = useThemeMode();
   const theme = themes[mode];
 
