@@ -13,6 +13,7 @@ export default function CustomStatusBar() {
     <View
       style={{
         height: insets.top,
+        backgroundColor,
       }}
     >
       <StatusBar
