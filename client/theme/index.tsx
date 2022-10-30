@@ -13,6 +13,7 @@ import {
   createContext,
   PropsWithChildren,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -41,8 +42,20 @@ const ThemeModeContext = createContext<{
 });
 
 export function ThemeModeProvider({ children }: PropsWithChildren<{}>) {
-  const [mode, setMode] = useState<ThemeMode>("light");
+  const [mode, setMode] = useState<ThemeMode>(() => "light");
   const settings = useMemo(() => ({ mode, setMode }), [mode]);
+
+  useEffect(() => {
+    const sub = Appearance.addChangeListener((appearance) => {
+      if (appearance.colorScheme) {
+        setMode(appearance.colorScheme);
+      }
+    });
+
+    return () => {
+      sub.remove();
+    };
+  }, []);
 
   return (
     <ThemeModeContext.Provider value={settings}>
