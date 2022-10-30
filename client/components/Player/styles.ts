@@ -1,4 +1,3 @@
-import * as React from "react";
 import { Dimensions, StyleSheet } from "react-native";
 
 import { FONT_SIZE } from "../../constants";

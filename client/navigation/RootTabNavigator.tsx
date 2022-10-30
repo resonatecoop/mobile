@@ -1,10 +1,10 @@
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import MaterialCommunityIcon from "@expo/vector-icons/MaterialCommunityIcons";
-import Home from "../components/Home";
-import Search from "../components/Search";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+
 import Browse from "../components/Browse";
+import Home from "../components/Home";
 import Library from "../components/Library";
-import { useTheme } from "react-native-paper";
+import Search from "../components/Search";
 
 const Tab = createMaterialBottomTabNavigator();
 

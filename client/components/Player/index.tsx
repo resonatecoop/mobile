@@ -12,9 +12,8 @@ import { Appbar, useTheme, Text } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { BOTTOM_NAVIGATION_HEIGHT } from "../../constants";
-import { getMMSSFromMillis } from "../../utils";
 import { PLAYLIST } from "../../test";
-
+import { getMMSSFromMillis } from "../../utils";
 import { styles } from "./styles";
 import { LoopingType } from "./types";
 
@@ -312,7 +311,7 @@ export default function Player(): JSX.Element {
           disabled={isLoading}
           minimumTrackTintColor="#404040"
           maximumTrackTintColor="#505050"
-          tapToSeek={true} // Permits tapping on the slider track to set the thumb position (iOS only)
+          tapToSeek // Permits tapping on the slider track to set the thumb position (iOS only)
         />
       </View>
       <Appbar
