@@ -50,6 +50,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     minHeight: FONT_SIZE,
     position: "absolute",
+    bottom: FONT_SIZE * 2,
     textAlign: "center",
   },
   text: {
@@ -61,8 +62,8 @@ export const styles = StyleSheet.create({
     textAlign: "left",
   },
   timestamp: {
-    paddingLeft: 20,
-    textAlign: "right",
+    position: "absolute",
+    right: 16,
   },
   buttonsContainerBase: {
     alignItems: "center",
