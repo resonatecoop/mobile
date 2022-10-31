@@ -238,7 +238,7 @@ export default function Player(): JSX.Element {
           },
         ]}
       >
-        <View style={styles.trackInfoRow}>
+        <View style={[styles.trackInfoRow, { bottom: bottom + 30 }]}>
           <Text style={[styles.text, styles.buffering]}>
             {isBuffering ? BUFFERING_STRING : ""}
           </Text>

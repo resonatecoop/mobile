@@ -50,7 +50,6 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     minHeight: FONT_SIZE,
     position: "absolute",
-    bottom: FONT_SIZE * 2,
     textAlign: "center",
   },
   text: {
