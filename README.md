@@ -48,6 +48,11 @@ yarn run web
 ## 🧪 Testing
 Expect your code contributions to be tested: we use [commitlint](https://commitlint.js.org) to lint commit messages, and [prettier](https://prettier.io) to lint code.
 
+To test the `dark` theme on Android Studio, use the following command. Please try to ensure your changes work with both `light` and `dark` themes:
+
+```sh
+adb shell "cmd uimode night yes"
+```
 
 ## 📚 Contributing
 
