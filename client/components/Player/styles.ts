@@ -61,8 +61,8 @@ export const styles = StyleSheet.create({
     textAlign: "left",
   },
   timestamp: {
-    paddingLeft: 20,
-    textAlign: "right",
+    position: "absolute",
+    right: 16,
   },
   buttonsContainerBase: {
     alignItems: "center",

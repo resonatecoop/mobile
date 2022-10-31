@@ -238,7 +238,14 @@ export default function Player(): JSX.Element {
           },
         ]}
       >
-        <View style={styles.trackInfoRow}>
+        <View
+          style={[
+            styles.trackInfoRow,
+            {
+              bottom: BOTTOM_NAVIGATION_HEIGHT - 50,
+            },
+          ]}
+        >
           <Text style={[styles.text, styles.buffering]}>
             {isBuffering ? BUFFERING_STRING : ""}
           </Text>
