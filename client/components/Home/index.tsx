@@ -1,27 +1,52 @@
 import React from "react";
-import * as dotenv from "dotenv";
-import { View, FlatList } from "react-native";
-import { Text } from "react-native-paper";
+import { View, FlatList, StyleSheet } from "react-native";
+import { Title } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useLastUpdatedArtists } from "../../api";
+
+import { useLastUpdatedArtists } from "../../api/artists";
+import FeaturedPlaylistCard from "./FeaturedPlaylistCard";
 
 const Home = () => {
-  const { data: lastUpdatedArtists, error } = useLastUpdatedArtists();
-
-  console.log(error, "DATA");
+  const { data: lastUpdatedArtists } = useLastUpdatedArtists();
 
   return (
     <SafeAreaView>
-      <View>
-        <Text>Featured Playlists</Text>
+      <View style={styles.container}>
+        <Title style={[styles.horizontalSpacing, styles.title]}>
+          Featured Playlists
+        </Title>
         <FlatList
+          contentContainerStyle={styles.horizontalSpacing}
+          showsHorizontalScrollIndicator={false}
           data={lastUpdatedArtists?.data}
           horizontal
-          renderItem={({ item }) => <Text>{item.displayName}</Text>}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item, index, separators }) => (
+            <FeaturedPlaylistCard
+              image={item.images.sm}
+              title={item.displayName}
+            />
+          )}
+          ItemSeparatorComponent={() => <View style={styles.separator} />}
         />
       </View>
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 24,
+  },
+  title: {
+    marginBottom: 12,
+  },
+  horizontalSpacing: {
+    paddingHorizontal: 12,
+  },
+  separator: {
+    marginLeft: 12,
+  },
+});
 
 export default Home;

@@ -1,7 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 
-import api from "./ky";
-
 const artistKeys = {
   all: ["artists"] as const,
   lastUpdated: ({ limit, page }: GetLastUpdatedArtistsParams = {}) => [
@@ -22,15 +20,40 @@ export function useLastUpdatedArtists(
 function getLastUpdatedArtists({
   limit,
   page,
-}: GetLastUpdatedArtistsParams = {}) {
-  return api
-    .get("artists/updated", {
-      searchParams: {
-        limit: limit ?? "",
-        page: page ?? "",
+}: GetLastUpdatedArtistsParams = {}): Promise<GetLastUpdatedArtistsResponse> {
+  return Promise.resolve({
+    data: [
+      {
+        displayName: "Groovy",
+        id: "abc123",
+        images: {
+          sm: "https://images.unsplash.com/photo-1524650359799-842906ca1c06?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80",
+          md: "",
+          lg: "",
+        },
       },
-    })
-    .json<GetLastUpdatedArtistsResponse>();
+      {
+        displayName: "Grim",
+        id: "bbc123",
+        images: {
+          sm: "https://images.unsplash.com/photo-1524650359799-842906ca1c06?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80",
+          md: "",
+          lg: "",
+        },
+      },
+      {
+        displayName: "Cool longer name",
+        id: "cbc123",
+        images: {
+          sm: "https://images.unsplash.com/photo-1524650359799-842906ca1c06?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80",
+          md: "",
+          lg: "",
+        },
+      },
+    ],
+    count: 1,
+    numberOfPages: 1,
+  });
 }
 
 interface GetLastUpdatedArtistsResponse {
