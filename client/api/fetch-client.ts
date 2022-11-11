@@ -91,12 +91,20 @@ export class FetchClient {
     ).then<T>((res) => (res.status === 204 ? (null as T) : parseJSON(res)));
   }
 
+  put<T, U = unknown>(
+    endpoint: string,
+    payload?: U,
+    options?: ServiceClientOptions
+  ) {
+    return this.json<T, U>("PUT", endpoint, payload, options);
+  }
+
   post<T, U = unknown>(
     endpoint: string,
     payload?: U,
     options?: ServiceClientOptions
   ) {
-    return this.json<T>("POST", endpoint, payload, options);
+    return this.json<T, U>("POST", endpoint, payload, options);
   }
 
   patch<T, U = unknown>(
