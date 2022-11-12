@@ -27,10 +27,10 @@ export default async function fetchWithTimeout(
   })
     .then(async (res) => {
       if (!res.ok) {
-        const errorMessage = await res.text();
+        const payload = await res.json();
 
         const err = new FetchError(
-          `Request failed: ${url} ${res.status} ${errorMessage}`,
+          `Request failed: ${url} ${res.status} ${payload.message}`,
           url,
           res
         );
