@@ -2,15 +2,15 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { Card, Title } from "react-native-paper";
 
-export interface FeaturedPlaylistCardProps {
+export interface CarouselListCardProps {
   image: string;
   title: string;
 }
 
-export default function FeaturedPlaylistCard({
+export default function CarouselListCard({
   image,
   title,
-}: FeaturedPlaylistCardProps) {
+}: CarouselListCardProps) {
   return (
     <Card style={[styles.container]}>
       <Card.Cover
@@ -49,5 +49,4 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     marginVertical: 0,
   },
-  gap: {},
 });

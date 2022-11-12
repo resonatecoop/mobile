@@ -1,52 +1,44 @@
 import React from "react";
-import { View, FlatList, StyleSheet } from "react-native";
-import { Title } from "react-native-paper";
+import { ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useLastUpdatedArtists } from "../../api/artists";
-import FeaturedPlaylistCard from "./FeaturedPlaylistCard";
+import { useFeaturedPlaylists } from "../../api/trackgroups";
+import CarouselList from "./CarouselList";
+import CarouselListCard from "./CarouselListCard";
 
 const Home = () => {
   const { data: lastUpdatedArtists } = useLastUpdatedArtists();
+  const { data: featuredPlaylists } = useFeaturedPlaylists();
 
   return (
     <SafeAreaView>
-      <View style={styles.container}>
-        <Title style={[styles.horizontalSpacing, styles.title]}>
-          Featured Playlists
-        </Title>
-        <FlatList
-          contentContainerStyle={styles.horizontalSpacing}
-          showsHorizontalScrollIndicator={false}
-          data={lastUpdatedArtists?.data}
-          horizontal
+      <ScrollView>
+        <CarouselList
+          title="Featured Playlists"
           keyExtractor={(item) => item.id}
-          renderItem={({ item, index, separators }) => (
-            <FeaturedPlaylistCard
-              image={item.images.sm}
-              title={item.displayName}
+          data={featuredPlaylists?.data}
+          renderItem={({ item }) => (
+            <CarouselListCard
+              image={item.images.small.url}
+              title={item.title}
             />
           )}
-          ItemSeparatorComponent={() => <View style={styles.separator} />}
         />
-      </View>
+        <CarouselList
+          title="Latest Artists"
+          keyExtractor={(item) => item.id.toString()}
+          data={lastUpdatedArtists?.data}
+          renderItem={({ item }) => (
+            <CarouselListCard
+              image={item.images["profile_photo-m"] ?? ""}
+              title={item.name}
+            />
+          )}
+        />
+      </ScrollView>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: 24,
-  },
-  title: {
-    marginBottom: 12,
-  },
-  horizontalSpacing: {
-    paddingHorizontal: 12,
-  },
-  separator: {
-    marginLeft: 12,
-  },
-});
 
 export default Home;
