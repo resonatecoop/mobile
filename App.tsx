@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import * as React from "react";
 import {
   SafeAreaProvider,
@@ -9,16 +10,20 @@ import Player from "./client/components/Player";
 import RootTabNavigator from "./client/navigation/RootTabNavigator";
 import { PaperNavigationProvider, ThemeModeProvider } from "./client/theme";
 
+const queryClient = new QueryClient();
+
 export default function App() {
   return (
-    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-      <ThemeModeProvider>
-        <PaperNavigationProvider>
-          <CustomStatusBar />
-          <RootTabNavigator />
-          <Player />
-        </PaperNavigationProvider>
-      </ThemeModeProvider>
-    </SafeAreaProvider>
+    <QueryClientProvider client={queryClient}>
+      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+        <ThemeModeProvider>
+          <PaperNavigationProvider>
+            <CustomStatusBar />
+            <RootTabNavigator />
+            <Player />
+          </PaperNavigationProvider>
+        </ThemeModeProvider>
+      </SafeAreaProvider>
+    </QueryClientProvider>
   );
 }

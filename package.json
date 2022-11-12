@@ -20,6 +20,8 @@
     "@react-native-community/slider": "4.2.3",
     "@react-navigation/material-bottom-tabs": "^6.2.4",
     "@react-navigation/native": "^6.0.13",
+    "@tanstack/react-query": "^4.13.5",
+    "dotenv": "^16.0.3",
     "expo": "^46.0.0",
     "expo-av": "~12.0.4",
     "expo-status-bar": "~1.4.0",
