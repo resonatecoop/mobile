@@ -15,6 +15,7 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "prepare": "husky install",
+    "test:watch": "jest --watch --coverage=false --changedSince=origin/main",
     "test": "jest"
   },
   "dependencies": {
