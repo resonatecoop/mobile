@@ -4,6 +4,7 @@
   "scripts": {
     "start": "expo start --dev-client",
     "android": "expo run:android",
+    "expo:prebuild": "expo prebuild",
     "eslint:check": "eslint . --ext .jsx,.js,.ts,.tsx",
     "prettier:check": "prettier --check '**/*.{js,ts,jsx,tsx}'",
     "eslint:fix": "eslint --fix . --ext .jsx,.js,.ts,.tsx",
@@ -15,7 +16,7 @@
     "eject": "expo eject",
     "prepare": "husky install",
     "test:watch": "jest --watch --coverage=false --changedSince=origin/main",
-    "test": "jest"
+    "test": "jest",
   },
   "dependencies": {
     "@react-native-community/slider": "4.2.3",
