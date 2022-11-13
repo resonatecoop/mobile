@@ -43,6 +43,7 @@ export default function config({ config }: ConfigContext): ExpoConfig {
       eas: {
         projectId: "0d5b1fc5-4d05-4f8d-bfa7-9e0eddc180db",
       },
+      apiUrl: process.env.API_URL,
     },
     owner: "resonatecoop",
   };
