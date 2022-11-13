@@ -41,7 +41,7 @@ export default function config({ config }: ConfigContext): ExpoConfig {
     plugins: ["expo-community-flipper"],
     extra: {
       eas: {
-        projectId: "3ee2f1b4-9835-433f-a1af-6e4532022f84",
+        projectId: "0d5b1fc5-4d05-4f8d-bfa7-9e0eddc180db",
       },
     },
     owner: "resonatecoop",
