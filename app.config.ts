@@ -12,9 +12,6 @@ export default function config({ config }: ConfigContext): ExpoConfig {
     orientation: "portrait",
     icon: "./assets/icon.png",
     userInterfaceStyle: "automatic",
-    extra: {
-      apiUrl: process.env.API_URL,
-    },
     splash: {
       image: "./assets/splash.png",
       resizeMode: "contain",
@@ -29,15 +26,24 @@ export default function config({ config }: ConfigContext): ExpoConfig {
       infoPlist: {
         UIBackgroundModes: ["audio"],
       },
+      bundleIdentifier: "com.resonatecoop.mobile",
     },
     android: {
       adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
         backgroundColor: "#FFFFFF",
       },
+      package: "com.resonatecoop.mobile",
     },
     web: {
       favicon: "./assets/favicon.png",
     },
+    plugins: ["expo-community-flipper"],
+    extra: {
+      eas: {
+        projectId: "3ee2f1b4-9835-433f-a1af-6e4532022f84",
+      },
+    },
+    owner: "resonatecoop",
   };
 }
