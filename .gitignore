@@ -12,5 +12,9 @@ web-build/
 .env
 yarn-error.log
 
-# macOS
+# OSX
+#
 .DS_Store
+
+# Bundle artifacts
+*.jsbundle
