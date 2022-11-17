@@ -33,7 +33,6 @@ Clone this repository, install dependencies, and start expo.
 ```sh
 git clone https://github.com/resonatecoop/mobile.git
 cd mobile
-npm install -g expo-cli
 yarn
 expo start
 ```
