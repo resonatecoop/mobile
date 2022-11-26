@@ -51,12 +51,11 @@ export default function Player() {
   const [volume, setVolume] = useState<number>(1.0);
   const theme = useTheme();
   const keyboardVisible = useKeyboardVisibility();
-  const fadeAnim = useRef(new Animated.Value(1)).current;
+  const shiftAnim = useRef(new Animated.Value(1)).current;
 
   useLayoutEffect(() => {
-    Animated.timing(fadeAnim, {
+    Animated.spring(shiftAnim, {
       toValue: keyboardVisible ? 0 : 1,
-      duration: 300,
       useNativeDriver: true,
     }).start();
   }, [keyboardVisible]);
@@ -235,13 +234,12 @@ export default function Player() {
         styles.container,
         {
           backgroundColor: theme.colors.error,
-          opacity: fadeAnim,
-          bottom: BOTTOM_NAVIGATION_HEIGHT,
+          bottom: 0,
           transform: [
             {
-              translateY: fadeAnim.interpolate({
+              translateY: shiftAnim.interpolate({
                 inputRange: [0, 1],
-                outputRange: [PLAYER_HEIGHT, 0],
+                outputRange: [PLAYER_HEIGHT, -BOTTOM_NAVIGATION_HEIGHT],
               }),
             },
           ],
