@@ -6,15 +6,18 @@ import {
   InterruptionModeIOS,
 } from "expo-av";
 import isNil from "lodash/isNil";
-import * as React from "react";
-import { View } from "react-native";
-import { Appbar, useTheme, Text } from "react-native-paper";
+import { useState, useEffect } from "react";
+import { View, StyleSheet } from "react-native";
+import { useTheme, Text, Appbar } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { BOTTOM_NAVIGATION_HEIGHT } from "../../constants";
+import {
+  BOTTOM_NAVIGATION_HEIGHT,
+  FONT_SIZE,
+  PLAYER_HEIGHT,
+} from "../../constants";
 import { PLAYLIST } from "../../test";
 import { getMMSSFromMillis } from "../../utils";
-import { styles } from "./styles";
 import { LoopingType } from "./types";
 
 const DISABLED_OPACITY = 0.5;
@@ -22,35 +25,37 @@ const LOADING_STRING = "... loading ...";
 const BUFFERING_STRING = "...buffering...";
 
 export default function Player(): JSX.Element {
-  const [index, setIndex] = React.useState<number>(0);
-  const [isBuffering, setIsBuffering] = React.useState<boolean>(false);
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [isPlaying, setIsPlaying] = React.useState<boolean>(false);
-  const [isSeeking, setIsSeeking] = React.useState<boolean>(false);
-  const [loopingType, setLoopingType] = React.useState<LoopingType>(
-    LoopingType.ALL
+  const [index, setIndex] = useState<number>(0);
+  const [isBuffering, setIsBuffering] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [isSeeking, setIsSeeking] = useState<boolean>(false);
+  const [loopingType, setLoopingType] = useState<LoopingType>(LoopingType.ALL);
+  const [muted, setMuted] = useState<boolean>(false);
+  const [playbackInstance, setPlaybackInstance] = useState<Audio.Sound | null>(
+    null
   );
-  const [muted, setMuted] = React.useState<boolean>(false);
-  const [playbackInstance, setPlaybackInstance] =
-    React.useState<Audio.Sound | null>(null);
-  const [playbackInstanceDuration, setPlaybackInstanceDuration] =
-    React.useState<number | null>(null);
+  const [playbackInstanceDuration, setPlaybackInstanceDuration] = useState<
+    number | null
+  >(null);
   const [playbackInstanceName, setPlaybackInstanceName] =
-    React.useState<string>(LOADING_STRING);
-  const [playbackInstancePosition, setPlaybackInstancePosition] =
-    React.useState<number | null>(null);
-  const [rate, setRate] = React.useState<number>(1.0);
-  const [shouldCorrectPitch, setShouldCorrectPitch] =
-    React.useState<boolean>(false);
-  const [shouldPlay, setShouldPlay] = React.useState<boolean>(false);
+    useState<string>(LOADING_STRING);
+  const [playbackInstancePosition, setPlaybackInstancePosition] = useState<
+    number | null
+  >(null);
+  const [rate, setRate] = useState<number>(1.0);
+  const [shouldCorrectPitch, setShouldCorrectPitch] = useState<boolean>(false);
+  const [shouldPlay, setShouldPlay] = useState<boolean>(false);
   const [shouldPlayAtEndOfSeek, setShouldPlayAtEndOfSeek] =
-    React.useState<boolean>(false);
-  const [volume, setVolume] = React.useState<number>(1.0);
+    useState<boolean>(false);
+  const [volume, setVolume] = useState<number>(1.0);
+  const [appBarHeight, setAppBarHeight] = useState(0);
+  console.log(appBarHeight);
 
   const { bottom } = useSafeAreaInsets();
   const theme = useTheme();
 
-  React.useEffect(() => {
+  useEffect(() => {
     Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
       staysActiveInBackground: false,
@@ -223,13 +228,10 @@ export default function Player(): JSX.Element {
       style={[
         styles.container,
         {
-          backgroundColor: theme.colors.background,
-          bottom: BOTTOM_NAVIGATION_HEIGHT,
+          backgroundColor: theme.colors.surface,
         },
       ]}
     >
-      <View />
-      <View style={styles.space} />
       <View
         style={[
           styles.playbackContainer,
@@ -238,18 +240,14 @@ export default function Player(): JSX.Element {
           },
         ]}
       >
-        <View
-          style={[
-            styles.trackInfoRow,
-            {
-              bottom: BOTTOM_NAVIGATION_HEIGHT - 50,
-            },
-          ]}
-        >
-          <Text style={[styles.text, styles.buffering]}>
-            {isBuffering ? BUFFERING_STRING : ""}
-          </Text>
-          <Text style={styles.text}>{playbackInstanceName}</Text>
+        <View style={[styles.trackInfoRow]}>
+          {isBuffering || isLoading ? (
+            <Text style={[styles.text]}>
+              {isBuffering ? BUFFERING_STRING : LOADING_STRING}
+            </Text>
+          ) : (
+            <Text style={[styles.text]}>{playbackInstanceName}</Text>
+          )}
         </View>
         <Slider
           style={styles.playbackSlider}
@@ -263,13 +261,10 @@ export default function Player(): JSX.Element {
         />
       </View>
       <Appbar
-        style={[
-          styles.appBar,
-          {
-            backgroundColor: theme.colors.background,
-            height: bottom,
-          },
-        ]}
+        style={styles.appBar}
+        onLayout={(event) => {
+          setAppBarHeight(event.nativeEvent.layout.height);
+        }}
       >
         <Appbar.Action
           accessibilityLabel="rewind"
@@ -298,8 +293,54 @@ export default function Player(): JSX.Element {
           icon={loopingType === LoopingType.ALL ? "repeat" : "repeat-once"}
           onPress={_onLoopPressed}
         />
-        <Text style={[styles.text, styles.timestamp]}>{_getTimestamp()}</Text>
+        <Appbar.Content
+          title={_getTimestamp()}
+          titleStyle={[styles.text, styles.timestamp]}
+        />
       </Appbar>
     </View>
   );
 }
+
+export const styles = StyleSheet.create({
+  appBar: {
+    justifyContent: "center",
+    width: "100%",
+  },
+  container: {
+    position: "absolute",
+    bottom: BOTTOM_NAVIGATION_HEIGHT,
+    width: "100%",
+    height: PLAYER_HEIGHT,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  nameContainer: {
+    height: FONT_SIZE,
+  },
+  space: {
+    height: FONT_SIZE,
+  },
+  playbackContainer: {
+    width: "100%",
+    flex: 1,
+  },
+  playbackSlider: {
+    alignSelf: "stretch",
+  },
+  trackInfoRow: {
+    flex: 1,
+    alignItems: "center",
+    marginTop: 24,
+  },
+  text: {
+    fontSize: FONT_SIZE,
+  },
+  buffering: {
+    alignSelf: "center",
+  },
+  timestamp: {
+    textAlign: "right",
+    marginRight: 16,
+  },
+});
