@@ -15,17 +15,22 @@ import {
 import { Appearance } from "react-native";
 import {
   Provider as PaperProvider,
-  Theme,
-  DarkTheme as PaperDarkTheme,
-  DefaultTheme as PaperLightTheme,
+  adaptNavigationTheme,
+  MD3DarkTheme,
+  MD3LightTheme,
 } from "react-native-paper";
 
 export type ThemeMode = "light" | "dark";
 
-const lightTheme = merge({}, NavigationLightTheme, PaperLightTheme);
-const darkTheme = merge(NavigationDarkTheme, PaperDarkTheme, {
+const { LightTheme, DarkTheme } = adaptNavigationTheme({
+  light: NavigationLightTheme,
+  dark: NavigationDarkTheme,
+});
+
+const lightTheme = merge({}, LightTheme, MD3LightTheme);
+const darkTheme = merge({}, DarkTheme, MD3DarkTheme, {
   colors: { background: "#18191a" },
-} as Theme);
+});
 
 export const themes = {
   light: lightTheme,
@@ -76,8 +81,8 @@ export function PaperNavigationProvider({
   const theme = themes[mode];
 
   return (
-    <NavigationContainer theme={theme}>
-      <PaperProvider theme={theme}>{children}</PaperProvider>
-    </NavigationContainer>
+    <PaperProvider theme={theme}>
+      <NavigationContainer theme={theme}>{children}</NavigationContainer>
+    </PaperProvider>
   );
 }
