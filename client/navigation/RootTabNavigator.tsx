@@ -5,12 +5,17 @@ import Browse from "../components/Browse";
 import Home from "../components/Home";
 import Library from "../components/Library";
 import Search from "../components/Search";
+import { BOTTOM_NAVIGATION_HEIGHT } from "../constants";
 
 const Tab = createMaterialBottomTabNavigator();
 
 export default function RootTabNavigator() {
   return (
-    <Tab.Navigator id="rooTabNavigator" initialRouteName="Home">
+    <Tab.Navigator
+      id="rooTabNavigator"
+      initialRouteName="Search"
+      barStyle={{ height: BOTTOM_NAVIGATION_HEIGHT }}
+    >
       <Tab.Screen
         name="Home"
         component={Home}
