@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Keyboard } from "react-native";
 
 export default function useKeyboardVisible() {
