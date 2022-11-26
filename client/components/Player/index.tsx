@@ -6,16 +6,16 @@ import {
   InterruptionModeIOS,
 } from "expo-av";
 import isNil from "lodash/isNil";
-import { useState, useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import { useState, useEffect, useRef, useLayoutEffect } from "react";
+import { View, StyleSheet, Animated } from "react-native";
 import { useTheme, Text, Appbar } from "react-native-paper";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import {
   BOTTOM_NAVIGATION_HEIGHT,
   FONT_SIZE,
   PLAYER_HEIGHT,
 } from "../../constants";
+import { useKeyboardVisibility } from "../../context/keyboard";
 import { PLAYLIST } from "../../test";
 import { getMMSSFromMillis } from "../../utils";
 import { LoopingType } from "./types";
@@ -24,7 +24,7 @@ const DISABLED_OPACITY = 0.5;
 const LOADING_STRING = "... loading ...";
 const BUFFERING_STRING = "...buffering...";
 
-export default function Player(): JSX.Element {
+export default function Player() {
   const [index, setIndex] = useState<number>(0);
   const [isBuffering, setIsBuffering] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -49,11 +49,17 @@ export default function Player(): JSX.Element {
   const [shouldPlayAtEndOfSeek, setShouldPlayAtEndOfSeek] =
     useState<boolean>(false);
   const [volume, setVolume] = useState<number>(1.0);
-  const [appBarHeight, setAppBarHeight] = useState(0);
-  console.log(appBarHeight);
-
-  const { bottom } = useSafeAreaInsets();
   const theme = useTheme();
+  const keyboardVisible = useKeyboardVisibility();
+  const fadeAnim = useRef(new Animated.Value(1)).current;
+
+  useLayoutEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: keyboardVisible ? 0 : 1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  }, [keyboardVisible]);
 
   useEffect(() => {
     Audio.setAudioModeAsync({
@@ -224,11 +230,21 @@ export default function Player(): JSX.Element {
   }
 
   return (
-    <View
+    <Animated.View
       style={[
         styles.container,
         {
-          backgroundColor: theme.colors.surface,
+          backgroundColor: theme.colors.error,
+          opacity: fadeAnim,
+          bottom: BOTTOM_NAVIGATION_HEIGHT,
+          transform: [
+            {
+              translateY: fadeAnim.interpolate({
+                inputRange: [0, 1],
+                outputRange: [PLAYER_HEIGHT, 0],
+              }),
+            },
+          ],
         },
       ]}
     >
@@ -240,7 +256,7 @@ export default function Player(): JSX.Element {
           },
         ]}
       >
-        <View style={[styles.trackInfoRow]}>
+        <View style={styles.trackInfoRow}>
           {isBuffering || isLoading ? (
             <Text style={[styles.text]}>
               {isBuffering ? BUFFERING_STRING : LOADING_STRING}
@@ -250,7 +266,6 @@ export default function Player(): JSX.Element {
           )}
         </View>
         <Slider
-          style={styles.playbackSlider}
           value={_getSeekSliderPosition()}
           onValueChange={_onSeekSliderValueChange}
           onSlidingComplete={_onSeekSliderSlidingComplete}
@@ -260,12 +275,7 @@ export default function Player(): JSX.Element {
           tapToSeek // Permits tapping on the slider track to set the thumb position (iOS only)
         />
       </View>
-      <Appbar
-        style={styles.appBar}
-        onLayout={(event) => {
-          setAppBarHeight(event.nativeEvent.layout.height);
-        }}
-      >
+      <Appbar>
         <Appbar.Action
           accessibilityLabel="rewind"
           icon="rewind"
@@ -298,46 +308,27 @@ export default function Player(): JSX.Element {
           titleStyle={[styles.text, styles.timestamp]}
         />
       </Appbar>
-    </View>
+    </Animated.View>
   );
 }
 
 export const styles = StyleSheet.create({
-  appBar: {
-    justifyContent: "center",
-    width: "100%",
-  },
   container: {
     position: "absolute",
-    bottom: BOTTOM_NAVIGATION_HEIGHT,
     width: "100%",
     height: PLAYER_HEIGHT,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  nameContainer: {
-    height: FONT_SIZE,
-  },
-  space: {
-    height: FONT_SIZE,
   },
   playbackContainer: {
     width: "100%",
     flex: 1,
   },
-  playbackSlider: {
-    alignSelf: "stretch",
-  },
   trackInfoRow: {
     flex: 1,
     alignItems: "center",
-    marginTop: 24,
+    marginTop: 22,
   },
   text: {
     fontSize: FONT_SIZE,
-  },
-  buffering: {
-    alignSelf: "center",
   },
   timestamp: {
     textAlign: "right",
