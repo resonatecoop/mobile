@@ -1,6 +1,6 @@
 import React from "react";
-import { KeyboardAvoidingView, Keyboard } from "react-native";
-import { Text, Searchbar } from "react-native-paper";
+import { View } from "react-native";
+import { Text, Searchbar, useTheme } from "react-native-paper";
 
 import { PLAYER_HEIGHT } from "../../constants";
 import { useKeyboardVisibility } from "../../context/keyboard";
@@ -8,6 +8,8 @@ import ScreenView from "../common/ScreenView";
 
 const Search = () => {
   const keyboardVisible = useKeyboardVisibility();
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const theme = useTheme();
   return (
     <ScreenView
       style={{
@@ -15,13 +17,18 @@ const Search = () => {
         justifyContent: "space-between",
       }}
     >
-      <Text>SafeAreaView Search</Text>
+      <View>
+        <Text>SafeAreaView Search</Text>
+      </View>
       <Searchbar
+        blurOnSubmit
         placeholder="Search"
-        defaultValue="ello"
-        value="hello"
+        value={searchQuery}
+        onChangeText={setSearchQuery}
         style={{
-          marginBottom: keyboardVisible ? 0 : PLAYER_HEIGHT,
+          marginBottom: 4,
+          transform: [{ translateY: keyboardVisible ? 0 : -PLAYER_HEIGHT }],
+          backgroundColor: theme.colors.surface,
         }}
       />
     </ScreenView>

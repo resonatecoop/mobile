@@ -233,7 +233,7 @@ export default function Player() {
       style={[
         styles.container,
         {
-          backgroundColor: theme.colors.error,
+          backgroundColor: theme.colors.surface,
           bottom: 0,
           transform: [
             {
@@ -273,7 +273,11 @@ export default function Player() {
           tapToSeek // Permits tapping on the slider track to set the thumb position (iOS only)
         />
       </View>
-      <Appbar>
+      <Appbar
+        style={{
+          backgroundColor: theme.colors.surface,
+        }}
+      >
         <Appbar.Action
           accessibilityLabel="rewind"
           icon="rewind"
