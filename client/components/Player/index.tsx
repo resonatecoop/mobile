@@ -24,8 +24,6 @@ const DISABLED_OPACITY = 0.5;
 const LOADING_STRING = "... loading ...";
 const BUFFERING_STRING = "...buffering...";
 
-const AnimatedSurface = Animated.createAnimatedComponent(Surface);
-
 export default function Player() {
   const [index, setIndex] = useState<number>(0);
   const [isBuffering, setIsBuffering] = useState<boolean>(false);
@@ -231,93 +229,98 @@ export default function Player() {
   }
 
   return (
-    <AnimatedSurface
-      style={[
-        styles.container,
-        {
-          backgroundColor: theme.colors.surface,
-          bottom: 0,
-          transform: [
-            {
-              translateY: shiftAnim.interpolate({
-                inputRange: [0, 1],
-                outputRange: [PLAYER_HEIGHT, -BOTTOM_NAVIGATION_HEIGHT - 5],
-              }),
-            },
-          ],
-        },
-      ]}
-    >
-      <View
-        style={[
-          styles.playbackContainer,
+    <Animated.View
+      style={{
+        transform: [
           {
-            opacity: isLoading ? DISABLED_OPACITY : 1.0,
+            translateY: shiftAnim.interpolate({
+              inputRange: [0, 1],
+              outputRange: [PLAYER_HEIGHT, -BOTTOM_NAVIGATION_HEIGHT],
+            }),
+          },
+        ],
+      }}
+    >
+      <Surface
+        style={[
+          styles.contentContainer,
+          {
+            backgroundColor: theme.colors.surface,
+            bottom: 0,
           },
         ]}
       >
-        <View style={styles.trackInfoRow}>
-          {isBuffering || isLoading ? (
-            <Text style={[styles.text]}>
-              {isBuffering ? BUFFERING_STRING : LOADING_STRING}
-            </Text>
-          ) : (
-            <Text style={[styles.text]}>{playbackInstanceName}</Text>
-          )}
+        <View
+          style={[
+            styles.playbackContainer,
+            {
+              opacity: isLoading ? DISABLED_OPACITY : 1.0,
+            },
+          ]}
+        >
+          <View style={styles.trackInfoRow}>
+            {isBuffering || isLoading ? (
+              <Text style={[styles.text]}>
+                {isBuffering ? BUFFERING_STRING : LOADING_STRING}
+              </Text>
+            ) : (
+              <Text style={[styles.text]}>{playbackInstanceName}</Text>
+            )}
+          </View>
+          <Slider
+            value={_getSeekSliderPosition()}
+            onValueChange={_onSeekSliderValueChange}
+            onSlidingComplete={_onSeekSliderSlidingComplete}
+            disabled={isLoading}
+            minimumTrackTintColor="#404040"
+            maximumTrackTintColor="#505050"
+            tapToSeek // Permits tapping on the slider track to set the thumb position (iOS only)
+          />
         </View>
-        <Slider
-          value={_getSeekSliderPosition()}
-          onValueChange={_onSeekSliderValueChange}
-          onSlidingComplete={_onSeekSliderSlidingComplete}
-          disabled={isLoading}
-          minimumTrackTintColor="#404040"
-          maximumTrackTintColor="#505050"
-          tapToSeek // Permits tapping on the slider track to set the thumb position (iOS only)
-        />
-      </View>
-      <Appbar
-        style={{
-          backgroundColor: theme.colors.surface,
-        }}
-      >
-        <Appbar.Action
-          accessibilityLabel="rewind"
-          icon="rewind"
-          onPress={_onBackPressed}
-        />
-        <Appbar.Action
-          accessibilityLabel={isPlaying ? "pause" : "play"}
-          icon={isPlaying ? "pause" : "play"}
-          onPress={_onPlayPausePressed}
-        />
-        <Appbar.Action
-          accessibilityLabel="stop"
-          icon="stop"
-          onPress={_onStopPressed}
-        />
-        <Appbar.Action
-          accessibilityLabel="fast forward"
-          icon="fast-forward"
-          onPress={_onForwardPressed}
-        />
-        <Appbar.Action
-          accessibilityLabel={
-            loopingType === LoopingType.ALL ? "repeat" : "repeat-once"
-          }
-          icon={loopingType === LoopingType.ALL ? "repeat" : "repeat-once"}
-          onPress={_onLoopPressed}
-        />
-        <Appbar.Content
-          title={_getTimestamp()}
-          titleStyle={[styles.text, styles.timestamp]}
-        />
-      </Appbar>
-    </AnimatedSurface>
+        <Appbar
+          style={{
+            backgroundColor: theme.colors.surface,
+          }}
+        >
+          <Appbar.Action
+            accessibilityLabel="rewind"
+            icon="rewind"
+            onPress={_onBackPressed}
+          />
+          <Appbar.Action
+            accessibilityLabel={isPlaying ? "pause" : "play"}
+            icon={isPlaying ? "pause" : "play"}
+            onPress={_onPlayPausePressed}
+          />
+          <Appbar.Action
+            accessibilityLabel="stop"
+            icon="stop"
+            onPress={_onStopPressed}
+          />
+          <Appbar.Action
+            accessibilityLabel="fast forward"
+            icon="fast-forward"
+            onPress={_onForwardPressed}
+          />
+          <Appbar.Action
+            accessibilityLabel={
+              loopingType === LoopingType.ALL ? "repeat" : "repeat-once"
+            }
+            icon={loopingType === LoopingType.ALL ? "repeat" : "repeat-once"}
+            onPress={_onLoopPressed}
+          />
+          <Appbar.Content
+            title={_getTimestamp()}
+            titleStyle={[styles.text, styles.timestamp]}
+          />
+        </Appbar>
+      </Surface>
+    </Animated.View>
   );
 }
 
 export const styles = StyleSheet.create({
-  container: {
+  contentContainer: {
     position: "absolute",
     width: "100%",
     height: PLAYER_HEIGHT,
