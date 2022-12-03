@@ -8,14 +8,14 @@ import {
 import isNil from "lodash/isNil";
 import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { View, StyleSheet, Animated } from "react-native";
-import { useTheme, Text, Appbar } from "react-native-paper";
+import { useTheme, Text, Appbar, Surface } from "react-native-paper";
 
 import {
   BOTTOM_NAVIGATION_HEIGHT,
   FONT_SIZE,
   PLAYER_HEIGHT,
 } from "../../constants";
-import { useKeyboardVisibility } from "../../context/keyboard";
+import useKeyboardVisible from "../../hooks/useKeyboardVisible";
 import { PLAYLIST } from "../../test";
 import { getMMSSFromMillis } from "../../utils";
 import { LoopingType } from "./types";
@@ -23,6 +23,8 @@ import { LoopingType } from "./types";
 const DISABLED_OPACITY = 0.5;
 const LOADING_STRING = "... loading ...";
 const BUFFERING_STRING = "...buffering...";
+
+const AnimatedSurface = Animated.createAnimatedComponent(Surface);
 
 export default function Player() {
   const [index, setIndex] = useState<number>(0);
@@ -50,7 +52,7 @@ export default function Player() {
     useState<boolean>(false);
   const [volume, setVolume] = useState<number>(1.0);
   const theme = useTheme();
-  const keyboardVisible = useKeyboardVisibility();
+  const keyboardVisible = useKeyboardVisible();
   const shiftAnim = useRef(new Animated.Value(1)).current;
 
   useLayoutEffect(() => {
@@ -229,7 +231,7 @@ export default function Player() {
   }
 
   return (
-    <Animated.View
+    <AnimatedSurface
       style={[
         styles.container,
         {
@@ -310,7 +312,7 @@ export default function Player() {
           titleStyle={[styles.text, styles.timestamp]}
         />
       </Appbar>
-    </Animated.View>
+    </AnimatedSurface>
   );
 }
 

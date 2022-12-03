@@ -7,7 +7,6 @@ import {
 
 import CustomStatusBar from "./client/components/CustomStatusBar";
 import Player from "./client/components/Player";
-import { KeyboardVisibilityProvider } from "./client/context/keyboard";
 import RootTabNavigator from "./client/navigation/RootTabNavigator";
 import { PaperNavigationProvider, ThemeModeProvider } from "./client/theme";
 
@@ -20,10 +19,8 @@ export default function App() {
         <ThemeModeProvider>
           <PaperNavigationProvider>
             <CustomStatusBar />
-            <KeyboardVisibilityProvider>
-              <RootTabNavigator />
-              <Player />
-            </KeyboardVisibilityProvider>
+            <RootTabNavigator />
+            <Player />
           </PaperNavigationProvider>
         </ThemeModeProvider>
       </SafeAreaProvider>
