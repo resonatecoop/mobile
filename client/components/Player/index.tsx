@@ -277,11 +277,7 @@ export default function Player() {
             tapToSeek // Permits tapping on the slider track to set the thumb position (iOS only)
           />
         </View>
-        <Appbar
-          style={{
-            backgroundColor: theme.colors.surface,
-          }}
-        >
+        <Appbar style={{ backgroundColor: theme.colors.surface }}>
           <Appbar.Action
             accessibilityLabel="rewind"
             icon="rewind"
