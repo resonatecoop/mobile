@@ -2,7 +2,7 @@ import { FetchError } from "./error";
 import fetchWithTimeout, { FetchOptions } from "./fetch-with-timeout";
 
 interface ServiceClientOptions {
-  host?: string;
+  baseURL?: string;
   headers?: Record<string, string>;
   timeout?: number;
 }
@@ -53,8 +53,8 @@ export class FetchClient {
     body?: BodyInit,
     options?: ServiceClientOptions
   ) {
-    const { host, headers, timeout = 0 } = this.mergeOptions(options);
-    const url = this.getURL(endpoint, host || "");
+    const { baseURL, headers, timeout = 0 } = this.mergeOptions(options);
+    const url = this.getURL(endpoint, baseURL || "");
     const method = _method.toUpperCase();
     const opts: FetchOptions = {
       method,
