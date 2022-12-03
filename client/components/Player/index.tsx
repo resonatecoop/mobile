@@ -241,7 +241,7 @@ export default function Player() {
             {
               translateY: shiftAnim.interpolate({
                 inputRange: [0, 1],
-                outputRange: [PLAYER_HEIGHT, -BOTTOM_NAVIGATION_HEIGHT],
+                outputRange: [PLAYER_HEIGHT, -BOTTOM_NAVIGATION_HEIGHT - 5],
               }),
             },
           ],
